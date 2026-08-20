@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // The web app signs in anonymously before using Firestore.
+    // This starter rule protects the database from unauthenticated access.
+    // For production, replace the anonymous-auth rule with role-based Firebase Auth.
+    match /stores/{storeId}/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
