@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#080b14"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="SuperPOS"/>
+<link rel="manifest" href="manifest.json"/>
+<title>SuperPOS</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app dark" id="appRoot">
+
+  <div id="loginScreen" class="loginScreen"></div>
+
+  <div id="appShell" class="appShell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brandIcon"><i data-lucide="shopping-cart"></i></div>
+        <div><b>SuperPOS</b><span>Inventory System</span></div>
+        <button class="icon mobileClose" id="mobileCloseBtn" aria-label="Close menu"><i data-lucide="x"></i></button>
+      </div>
+      <nav id="navList"></nav>
+      <div class="user">
+        <div class="avatar" id="sidebarAvatar">A</div>
+        <div><b id="sidebarUserName">Admin</b><span><i data-lucide="shield-check" style="width:11px;height:11px"></i> Administrator</span></div>
+        <button class="icon logoutBtn" id="logoutBtn" title="Log out"><i data-lucide="log-out"></i></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header>
+        <button class="icon mobileMenu" id="mobileMenuBtn"><i data-lucide="menu"></i></button>
+        <b class="mobileTitle">SuperPOS</b>
+        <div class="headerContext" id="headerContext" aria-live="polite"></div>
+        <div class="headerSpacer"></div>
+        <div class="dateBadge" id="todayDate"></div>
+        <div class="actions">
+          <button class="icon" id="themeToggleBtn" title="Toggle theme"><i data-lucide="sun"></i></button>
+          <div class="topAvatar" id="topAvatar">A</div>
+        </div>
+      </header>
+      <section class="content" id="content"></section>
+    </main>
+  </div>
+
+  <nav class="mobileBottomNav" id="mobileBottomNav" aria-label="Mobile navigation">
+    <button class="mobileNavBtn" data-page="Dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
+    <button class="mobileNavBtn" data-page="Point of Sale"><i data-lucide="shopping-cart"></i><span>POS</span></button>
+    <button class="mobileNavBtn" data-page="Inventory"><i data-lucide="package"></i><span>Stock</span></button>
+    <button class="mobileNavBtn" id="mobileMenuNav"><i data-lucide="more-horizontal"></i><span>Menu</span></button>
+  </nav>
+</div>
+
+<!-- Camera barcode scan modal -->
+<div class="scanModal" id="scanModal">
+  <div class="scanBox">
+    <h3><i data-lucide="camera"></i> <span id="scanModalTitle">Scan barcode with camera</span></h3>
+    <div class="videoWrap">
+      <video id="scanVideo" autoplay muted playsinline></video>
+      <div class="scanFrame"></div>
+    </div>
+    <div class="scanStatus" id="scanStatus">Requesting camera access…</div>
+    <div class="scanActions">
+      <button class="retryBtn" id="scanRetryBtn">Try again</button>
+      <button class="cancelBtn" id="scanCancelBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reusable form / confirmation modal -->
+<div class="uiModal" id="uiModal" aria-hidden="true">
+  <div class="uiModalCard" id="uiModalCard"></div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-client.js"></script>
+<script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register(new URL("sw.js", document.baseURI), { scope: "./" }).catch(err => console.warn("PWA service worker registration failed:", err)));
+}
+</script>
+</body>
+</html>
